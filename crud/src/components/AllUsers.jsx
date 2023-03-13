@@ -1,10 +1,10 @@
 import { Table, TableHead, TableCell, TableBody, TableRow, styled, Button } from '@mui/material'
 
-import { getUsers } from '../service/api'
+import { getUsers, deleteUser } from '../service/api'
 
 import { useEffect, useState } from 'react'
 
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const StyledTable = styled(Table)`
     width: 70%;
@@ -37,6 +37,10 @@ const AllUsers = () => {
         setUsers(response.data)
     }
 
+    const deleteUserDetails = async (id) => {
+        await deleteUser(id)
+    }
+
     return (
         <StyledTable>
             <TableHead>
@@ -52,15 +56,15 @@ const AllUsers = () => {
             <TableBody>
                 {
                     users.map(data => (
-                        <FontTableRow>
+                        <FontTableRow key={data._id}>
                             <TableCell>{data._id}</TableCell>
                             <TableCell>{data.name}</TableCell>
                             <TableCell>{data.username}</TableCell>
                             <TableCell>{data.email}</TableCell>
                             <TableCell>{data.phone}</TableCell>
                             <TableCell>
-                                <Button variant='contained' style={{marginRight : 10}} component={Link} to={`/edit/${data._id}`}>Edit</Button>
-                                <Button variant='contained' color='secondary'>Delete</Button>
+                                <Button variant='contained' style={{ marginRight: 10 }} component={Link} to={`/edit/${data._id}`}>Edit</Button>
+                                <Button variant='contained' color='secondary' onClick={() => deleteUserDetails(data._id)}>Delete</Button>
                             </TableCell>
                         </FontTableRow>
                     ))
