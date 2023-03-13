@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { addUser } from "../service/api";
 
+import { useNavigate } from "react-router-dom";
+
 const Container = styled(FormGroup)`
 width : 50%;
 margin : 5% auto 0 auto;
@@ -27,13 +29,15 @@ const AddUser = () => {
 
     const [user, setUser] = useState(defaultUser);
 
+    const navigate = useNavigate();
+
     const onValueChange = (e) =>{
         setUser({...user,[e.target.name]:e.target.value})
-        console.log(user)
     }
 
     const addUserData = async () => {
         await addUser(user);
+        navigate('/all')
     }
     return (
         <Container>
